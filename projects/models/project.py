@@ -1,19 +1,20 @@
 from django.db import models
 
-
-#from projects import models
-
-
 class Project(models.Model):
-    name = models.CharField(max_length=20, unique=True)
-    description = models.TextField()
-    created_at = models.DateField(
-        auto_now_add=True # параметр
+    name = models.CharField(max_length=20)
+    description = models.TextField(max_length=600)
+    files = models.ManyToManyField(
+        "ProjectFile", blank=True,
+        related_name="projects"
     )
+    created_at = models.DateField(
+        auto_now_add=True
+    )
+    class Meta:
+        db_table = 'projects'
+        verbose_name = "Проект"
+        verbose_name_plural = "Проекты"
+        ordering = ['-name']
+        unique_together = ('name','created_at')
 
 
-"""1 Задание: Создайте модель Project со следующими полями:
-
-Название проекта: строковое поле, уникальное
-Описание проекта: строковое поле, большое поле, обязательное
-Дата создания проекта: должно автоматически устанавливаться при создании"""
