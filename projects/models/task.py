@@ -21,41 +21,58 @@ class Task(models.Model):
         max_length=100,
         unique=True,
         validators=[MinLengthValidator(10)],
-        verbose_name="Название задачи"
-    ),
+        verbose_name="Название задачи",
+        null=True,
+        blank=True,
+    )
+
     description = models.TextField(
         blank=True,
         null=True,
         verbose_name="Описание"
     )
+
     status = models.PositiveSmallIntegerField(
         choices=Status,
         default=Status.new,
         verbose_name="Статус"
-    ),
+    )
+
     priority = models.PositiveSmallIntegerField(
         choices=Priority,
-        verbose_name="Приоритет"
-    ),
+        verbose_name="Приоритет",
+        default=Priority.low,
+    )
+
     project = models.ForeignKey(
         "Project",
         related_name="tasks",
         on_delete=models.CASCADE,
-        verbose_name="Проект"
+        verbose_name="Проект",
+        null=True,
+        blank=True,
     )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Дата создания"
-    ),
+        verbose_name="Дата создания",
+        null=True,
+        blank=True,
+    )
+
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name="Дата обновления"
-    ),
+        verbose_name="Дата обновления",
+        null=True,
+        blank=True,
+    )
+
     deleted_at = models.DateTimeField(
         blank=True,
         null=True,
         verbose_name="Дата удаления"
     )
+
     due_date = models.DateTimeField(
         blank=True,
         null=True,
